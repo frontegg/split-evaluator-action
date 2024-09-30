@@ -11,9 +11,9 @@ jobs:
         id: evaluator
         uses: frontegg/split-evaluator-action@main
         with:
-        api-key: ${{ secrets.SPLIT_CHECK_DEPLOYMENT_API_KEY }}
-        key: ${{ secrets.SPLIT_EVAL_KEY }}
-        feature-flags: |
-          allow-deployments
+          api-key: ${{ secrets.SPLIT_CHECK_DEPLOYMENT_API_KEY }}
+          key: ${{ secrets.SPLIT_EVAL_KEY }}
+          feature-flags: |
+            allow-deployments
       - name: display result
         run: echo "${{ steps.evaluator.outputs.result }}"
