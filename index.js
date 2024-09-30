@@ -4,7 +4,7 @@ const github = require('@actions/github');
 
 
 const checkInputParam = function (param, errMsg) {
-  if (param == '') {
+  if (param === '') {
     core.setFailed(errMsg);
     throw errMsg;
   }
@@ -22,6 +22,8 @@ try {
   const splits = core.getMultilineInput('feature-flags');
   core.debug('Feature Flags: ' + splits);
 
+  const environment = core.getInput('environment', { required: false, trimWhitespace: true }) ;
+  core.debug('environment: ' + environment);
 
   const actor = github.context.actor;
   core.debug('actor: ' + actor);
@@ -31,7 +33,7 @@ try {
 
 
   var factory;
-  if (apiKey == 'localhost') {
+  if (apiKey === 'localhost') {
     factory = SplitFactory({
       core: {
         authorizationKey: apiKey,
@@ -47,9 +49,10 @@ try {
   }
 
   const attibutes = {
-    'name': actor,
+    'actor': actor,
     'repository': repo,
     'owner': owner,
+    'environment': environment
   };
 
   var client = factory.client();

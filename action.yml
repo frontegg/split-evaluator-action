@@ -10,6 +10,10 @@ inputs:
     description: "Evaluation key"
     required: true
     default: ""
+  environment: # environment name
+    description: "Environment name"
+    required: false
+    default: ""
   feature-flags:
     description: "Feature flags to be evaluated"
     required: true
