@@ -13,6 +13,7 @@ jobs:
         with:
           api-key: ${{ secrets.SPLIT_CHECK_DEPLOYMENT_API_KEY }}
           key: ${{ secrets.SPLIT_EVAL_KEY }}
+          environment: tests
           feature-flags: |
             allow-deployments
       - name: display result
