@@ -1,5 +1,7 @@
 const core = require('@actions/core');
 const SplitFactory = require('@splitsoftware/splitio').SplitFactory;
+const github = require('@actions/github');
+
 
 const checkInputParam = function (param, errMsg) {
   if (param == '') {
@@ -20,6 +22,14 @@ try {
   const splits = core.getMultilineInput('feature-flags');
   core.debug('Feature Flags: ' + splits);
 
+
+  const actor = github.context.actor;
+  core.debug('actor: ' + actor);
+// Get repository information
+  const { owner, repo } = github.context.repo;
+  core.debug('repository: ' + repo);
+
+
   var factory;
   if (apiKey == 'localhost') {
     factory = SplitFactory({
@@ -36,10 +46,16 @@ try {
     });
   }
 
+  const attibutes = {
+    'name': actor,
+    'repository': repo,
+    'owner': owner,
+  };
+
   var client = factory.client();
 
   client.on(client.Event.SDK_READY, async function () {
-    var result = client.getTreatments(key, splits);
+    var result = client.getTreatments(key, splits, attibutes);
 
     for (const splitName in result) {
       if (Object.hasOwnProperty.call(result, splitName)) {
