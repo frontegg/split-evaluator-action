@@ -1,0 +1,19 @@
+name: Test Split Feature Flags Evaluator
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Test Split Feature Falgs Evaluator
+    runs-on: ubuntu-latest
+    steps:
+      - name: Evaluate action step
+        id: evaluator
+        uses: frontegg/split-evaluator-action@main
+        with:
+        api-key: ${{ secrets.SPLIT_CHECK_DEPLOYMENT_API_KEY }}
+        key: ${{ secrets.SPLIT_EVAL_KEY }}
+        feature-flags: |
+          allow-deployments
+      - name: display result
+        run: echo "${{ steps.evaluator.outputs.result }}"
